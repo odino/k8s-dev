@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # dev $command
+arg=$1
 command="cmd_$1"
 
 # Run a bunch of checks to make sure
@@ -95,7 +96,9 @@ main(){
     then
         $command $@
     else
+        printf "'$arg' is not a recognized command.\n\n"
         cmd_help
+        exit 1
     fi
 }
 
