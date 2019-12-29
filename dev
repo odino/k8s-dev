@@ -28,6 +28,14 @@ cmd_up(){
     skaffold dev
 }
 
+# Delete the app from the cluster.
+cmd_delete(){
+    skaffold delete
+}
+cmd_d(){
+    cmd_delete
+}
+
 # This will drop you inside the container.
 # We use bash, if available, else "sh"
 cmd_in(){
@@ -63,7 +71,7 @@ cmd_test(){
 
     # If we have a Makefile, we might have a "make test"
     # command available
-    if cat Makefile | grep test > /dev/null 2>&1; then
+    if cat Makefile > /dev/null 2>&1; then
         test_command="make test"
     fi
 
