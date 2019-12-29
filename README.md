@@ -4,7 +4,7 @@ A utility to develop on a local kubernetes cluster.
 
 ## Installation
 
-Dump the `dev.sh` inside your `PATH` and you should be good
+Dump the `dev` script inside your `PATH` and you should be good
 to go.
 
 ```console
@@ -24,7 +24,7 @@ List of all available commands:
 You can add your own functionalities / commands by including
 this script into your own. You simply need to declare your 
 own custom commands following the `cmd_$command` convention
-and then source `dev.sh`:
+and then source `dev`:
 
 ```shell
 #!/bin/bash
@@ -32,7 +32,7 @@ cmd_version(){
     echo "Not really stable..."
 }
 
-source ./dev.sh
+source ./dev
 ```
 
 Then, your custom commands will be available:
