@@ -28,6 +28,13 @@ cmd_up(){
     skaffold dev
 }
 
+cmd_build(){
+    skaffold build
+}
+cmd_b(){
+    cmd_build
+}
+
 # Delete the app from the cluster.
 cmd_delete(){
     skaffold delete
