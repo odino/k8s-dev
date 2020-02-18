@@ -97,7 +97,7 @@ cmd_t(){
 # Read the app name based on the image we
 # build inside the skaffold.yaml
 get_app_name(){
-  echo $(yq read skaffold.yaml build.artifacts.0.image)
+  echo $(yq read skaffold.yaml build.artifacts[0].image)
 }
 
 # Main function: if a command has been passed,
