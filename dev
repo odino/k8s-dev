@@ -25,11 +25,20 @@ cmd_h(){
 
 # Boot the app through skaffold.
 cmd_up(){
-    skaffold dev
+    skaffold dev $@
 }
 
+# Boot the app through skaffold in background.
+cmd_run(){
+    skaffold run $@
+}
+cmd_r(){
+    cmd_run $@
+}
+
+# Build the app
 cmd_build(){
-    skaffold build
+    skaffold build $@
 }
 cmd_b(){
     cmd_build
@@ -59,6 +68,7 @@ cmd_x(){
     cmd_exec $@
 }
 
+# Wait for app (read: pod) to be available
 cmd_wait(){
     app=$(get_app_name)
     status=""
@@ -69,7 +79,6 @@ cmd_wait(){
         sleep 1
     done
 }
-
 cmd_w(){
     cmd_wait
 }
