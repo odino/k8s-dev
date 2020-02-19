@@ -88,10 +88,10 @@ cmd_test(){
     fi
 
     app=$(get_app_name)
-    kubectl exec -ti deploy/$app -- $test_command
+    kubectl exec -ti deploy/$app -- $test_command $@
 }
 cmd_t(){
-    cmd_test
+    cmd_test $@
 }
 
 # Read the app name based on the image we
