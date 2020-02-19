@@ -88,7 +88,7 @@ cmd_test(){
     fi
 
     app=$(get_app_name)
-    kubectl exec -ti deploy/$app -- $test_command $@
+    cmd_exec -- $test_command $@
 }
 cmd_t(){
     cmd_test $@
