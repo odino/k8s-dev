@@ -59,6 +59,21 @@ cmd_x(){
     cmd_exec $@
 }
 
+cmd_wait(){
+    app=$(get_app_name)
+    status=""
+
+    while [ "x$status" != "xRunning" ]
+    do
+        status=$(kubectl get po -l app=$app -o yaml | yq r - items[0].status.phase)
+        sleep 1
+    done
+}
+
+cmd_w(){
+    cmd_wait
+}
+
 # This will try to execute tests inside the app,
 # based on the platform we detect.
 cmd_test(){
