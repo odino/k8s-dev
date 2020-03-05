@@ -75,8 +75,34 @@ cmd_wait(){
 
     while [ "x$status" != "xRunning" ]
     do
+        # Here we assume deployments and pods will be booted
+        # with a label app=$app.
+        # Then we wait for them to become available -- once
+        # they are, we move on.
+        # 
+        # There are a bunch of debug statements here to make
+        # it easier to actually figure out what's going on,
+        # as it could be that our deployment isn't booting
+        # because a volume can't be mounted, etc etc.
+        printf "$(tput setaf 2)Deployment info:$(tput setaf 3)\n\n\r"
+        (set -x; kubectl get deployment -l app=$app -o yaml)
+        printf "$(tput setaf 2)\nPod info:$(tput setaf 3)\n\n\r"
+        (set -x; kubectl get po -l app=$app -o yaml)
+        printf "$(tput setaf 2)\nPod logs:$(tput setaf 3)\n\n\r"
+        (set -x; kubectl logs -l app=$app)
         status=$(kubectl get po -l app=$app -o yaml | yq r - items[0].status.phase)
+
+        # Let's wait a couple seconds for the app to come alive...
         sleep 1
+
+        # If we are running with a TTY,
+        # let's simulate watch / top / etc
+        # and instead of echoeing the above output
+        # line after line, we clear the shell and
+        # simply "refresh" the content
+        if [ -t 0 ]; then
+            tput clear
+        fi
     done
 }
 cmd_w(){
