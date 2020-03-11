@@ -87,7 +87,7 @@ cmd_wait(){
         printf "$(tput setaf 2)Deployment info:$(tput setaf 3)\n\n\r"
         (set -x; kubectl get deployment -l app=$app -o yaml)
         printf "$(tput setaf 2)\nPod info:$(tput setaf 3)\n\n\r"
-        (set -x; kubectl get po -l app=$app -o yaml)
+        (set -x; kubectl describe po -l app=$app)
         printf "$(tput setaf 2)\nPod logs:$(tput setaf 3)\n\n\r"
         (set -x; kubectl logs -l app=$app)
         status=$(kubectl get po -l app=$app -o yaml | yq r - items[0].status.phase)
