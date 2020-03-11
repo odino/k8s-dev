@@ -92,8 +92,8 @@ cmd_wait(){
         (set -x; kubectl logs -l app=$app)
         status=$(kubectl get po -l app=$app -o yaml | yq r - items[0].status.phase)
 
-        # Let's wait a couple seconds for the app to come alive...
-        sleep 1
+        # Let's wait for the app to come alive...
+        sleep 5
 
         # If we are running with a TTY,
         # let's simulate watch / top / etc
