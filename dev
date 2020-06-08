@@ -155,10 +155,10 @@ cmd_t(){
 # Read the app name based on the image we
 # build inside the skaffold.yaml
 get_app_name(){
-    if [ ! -f .profile ]; then
+    if [ ! -f .dev ]; then
         echo $(yq read skaffold.yaml build.artifacts[0].image); 
     else 
-        echo $(yq read .profile app); 
+        echo $(yq read .dev app); 
     fi
 }
 
