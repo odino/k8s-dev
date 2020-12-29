@@ -117,36 +117,20 @@ cmd_w(){
     cmd_wait
 }
 
-# This will try to execute tests inside the app,
-# based on the platform we detect.
+run_script(){
+    cmd=$1
+    res=$(make -qp | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | grep "^$cmd\$" | wc -l)
+
+    if [ "__$res" = "__1" ]; then
+        cmd_exec make $cmd
+    else
+        echo "no '$cmd' command found"
+    fi
+}
+
+# This will try running `make test`
 cmd_test(){
-    test_command='echo unable to infer test command'
-
-    # If a Go main file is found, let's run all
-    # go tests recursively
-    if cat main.go > /dev/null 2>&1; then
-        test_command="go test ./... -v"
-    fi
-
-    # If this seems to be a python project,
-    # let's try pytest
-    if cat requirements.txt > /dev/null 2>&1; then
-        test_command="pytest"
-    fi
-
-    # If we have a Makefile, we might have a "make test"
-    # command available
-    if cat Makefile > /dev/null 2>&1; then
-        test_command="make test"
-    fi
-
-    # NodeJS? Let's rely on the package.json and NPM
-    if cat package.json > /dev/null 2>&1; then
-        test_command="npm test"
-    fi
-
-    app=$(get_app_name)
-    cmd_exec -- $test_command $@
+    run_script test
 }
 cmd_t(){
     cmd_test $@
@@ -156,9 +140,9 @@ cmd_t(){
 # build inside the skaffold.yaml
 get_app_name(){
     if [ ! -f .dev ]; then
-        echo $(yq read skaffold.yaml build.artifacts[0].image); 
+        echo $(yq e '[.build.artifacts[].image] | .[0]' skaffold.yaml)
     else 
-        echo $(yq read .dev app); 
+        echo $(yq e '[.app]' .dev); 
     fi
 }
 
