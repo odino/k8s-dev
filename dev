@@ -122,7 +122,7 @@ run_script(){
     res=$(make -qp | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | grep "^$cmd\$" | wc -l)
 
     if [ "__$res" = "__1" ]; then
-        make $cmd
+        cmd_exec make $cmd
     else
         echo "no '$cmd' command found"
     fi
@@ -140,9 +140,9 @@ cmd_t(){
 # build inside the skaffold.yaml
 get_app_name(){
     if [ ! -f .dev ]; then
-        echo $(yq read skaffold.yaml build.artifacts[0].image); 
+        echo $(yq e '[.build.artifacts[].image] | .[0]' skaffold.yaml)
     else 
-        echo $(yq read .dev app); 
+        echo $(yq e '[.app]' .dev); 
     fi
 }
 
