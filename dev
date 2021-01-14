@@ -128,6 +128,13 @@ run_script(){
     fi
 }
 
+cmd_make(){
+    run_script $@
+}
+cmd_m(){
+    cmd_make $@
+}
+
 # This will try running `make test`
 cmd_test(){
     run_script test
