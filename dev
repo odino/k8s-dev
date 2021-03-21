@@ -72,7 +72,7 @@ cmd_x(){
 # dev cp /my/file.txt ./file.txt
 cmd_cp(){
     app=$(get_app_name)
-    pod=$(kubectl get po -l app=$app -o yaml | yq r - items\[0\].metadata.name)
+    pod=$(kubectl get po -l app=$app -o yaml | yq e '.items[0].metadata.name' -)
     kubectl cp $pod:$1 $2
 }
 
